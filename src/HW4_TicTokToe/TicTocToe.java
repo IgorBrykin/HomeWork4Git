@@ -15,17 +15,43 @@ public class TicTocToe {
     public static Random random = new Random();
 
     public static void main(String[] args) {
+        initMap();
+        printMap();
 
+    }
+
+    public static void initMap() {  //инициализация поля
         map = new char[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 map[i][j] = DOT_EMPTY;
             }
         }
-
     }
 
+    public static void printMap() {         //Вывод поля в консоль.
+                                            // Проинициализированное поле готово.
+                                            // Теперь необходимо вывести его в консоль.
+        for (int i = 0; i <= SIZE; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < SIZE; i++) {
+            System.out.print((i + 1) + " ");
+            for (int j = 0; j < SIZE; j++) {
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
 
-}
+        }
+
+
+
+
+
+
 
 
