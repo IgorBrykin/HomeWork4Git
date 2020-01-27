@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class TicTocToe {// Создание двумерного символьного массива размером 3x3/
     // в каждом масссиве могут находиться символы: '0' 'X' '.'
     private static char[][] map;
-    private static final int SIZE = 5;
-    public static final int DOTS_TO_WIN = 4;
+    private static final int SIZE = 3;
+    public static final int DOTS_TO_WIN = 3;
     // именные константы
     public static final char DOT_EMPTY = '•';
     public static final char DOT_X = 'X';
@@ -25,12 +25,15 @@ public class TicTocToe {// Создание двумерного символь�
         while (true) {
             humanTurn();
             printMap();
-
+            if (isMapFull()) {
+                System.out.println("Ничья");
+                break;
+            }
             if (checkEnd(DOT_X, "Пользователь победил!"))
                 break;
-
             aiTurn();
             printMap();
+
             if (checkEnd(DOT_O, "Компьютер победил!"))
                 break;
             if (isMapFull()) {
