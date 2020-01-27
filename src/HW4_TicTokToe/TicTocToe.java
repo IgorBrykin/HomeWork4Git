@@ -19,7 +19,7 @@ public class TicTocToe {// Создание двумерного символь�
 
     public static void main(String[] args) {
         //Основной игровой цикл
-
+        // Инициализация
         initMap();
         printMap();
         while (true) {
