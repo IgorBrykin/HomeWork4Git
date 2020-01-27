@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class TicTocToe {// Создание двумерного символьного массива размером 3x3/
     // в каждом масссиве могут находиться символы: '0' 'X' '.'
     private static char[][] map;
-    private static final int SIZE = 3;
-    public static final int DOTS_TO_WIN = 3;
+    private static final int SIZE = 5;
+    public static final int DOTS_TO_WIN = 4;
     // именные константы
     public static final char DOT_EMPTY = '•';
     public static final char DOT_X = 'X';
@@ -25,20 +25,14 @@ public class TicTocToe {// Создание двумерного символь�
         while (true) {
             humanTurn();
             printMap();
-            if (checkWin(DOT_X)) {
-                System.out.println("Вы победили!");
+
+            if (checkEnd(DOT_X, "Пользователь победил!"))
                 break;
-            }
-            if (isMapFull()) {
-                System.out.println("Ничья");
-                break;
-            }
+
             aiTurn();
             printMap();
-            if (checkWin(DOT_O)) {
-                System.out.println("Победил Искуственный Интеллект");
+            if (checkEnd(DOT_O, "Компьютер победил!"))
                 break;
-            }
             if (isMapFull()) {
                 System.out.println("Ничья");
                 break;
@@ -81,9 +75,9 @@ public class TicTocToe {// Создание двумерного символь�
     public static void humanTurn() {
         int x, y;
         do {
-            System.out.println("Введите координату по широте");
+            System.out.println("Введите координату по горизонтали");
             x = sc.nextInt() - 1;
-            System.out.println("Введите координату по высоте:");
+            System.out.println("Введите координату по вертикале:");
             y = sc.nextInt() - 1;
         } while (!isCellValid(x, y));
         map[y][x] = DOT_X;
@@ -111,16 +105,45 @@ public class TicTocToe {// Создание двумерного символь�
 
     //Проверка победы.
     public static boolean checkWin(char symb) {
-        if (map[0][0] == symb && map[0][1] == symb && map[0][2] == symb) return true;
-        if (map[1][0] == symb && map[1][1] == symb && map[1][2] == symb) return true;
-        if (map[2][0] == symb && map[2][1] == symb && map[2][2] == symb) return true;
-        if (map[0][0] == symb && map[1][0] == symb && map[2][0] == symb) return true;
-        if (map[0][1] == symb && map[1][1] == symb && map[2][1] == symb) return true;
-        if (map[0][2] == symb && map[1][2] == symb && map[2][2] == symb) return true;
-        if (map[0][0] == symb && map[1][1] == symb && map[2][2] == symb) return true;
-        if (map[2][0] == symb && map[1][1] == symb && map[0][2] == symb) return true;
+        for (int i = 0; i < SIZE; i++) {
+            int rowCounter = 0;
+            int colCounter = 0;
+            for (int j = 0; j < SIZE; j++) {
+                rowCounter = (map[i][j] == symb) ? rowCounter + 1 : 0;
+                colCounter = (map[i][j] == symb) ? colCounter + 1 : 0;
+                if (rowCounter == DOTS_TO_WIN || colCounter == DOTS_TO_WIN) {
+                    return true;
+                }
+            }
+        }
+        int mainDiagCounter = 0;
+        int sideDiagCounter = 0;
+        for (int i = 0; i < SIZE ; i++) {
+            mainDiagCounter = (map[i][i] == symb) ? mainDiagCounter + 1 :0;
+            sideDiagCounter = (map[i][map.length-1-i] == symb) ? sideDiagCounter + 1:0;
+            if (mainDiagCounter == DOTS_TO_WIN|| sideDiagCounter == DOTS_TO_WIN){
+                return true;
+            }
+
+        }
         return false;
     }
+
+    private static boolean checkEnd(char symb, String winMessage) {
+        if (checkWin(symb)) {
+            System.out.println(winMessage);
+            return true;
+        }
+        if (isMapFull()) {
+            System.out.println("Ничья!");
+            return true;
+        }
+        return false;
+    }
+
+
+
+
 
     // isMapFull
     public static boolean isMapFull() {
